@@ -1,49 +1,49 @@
-team_name,search_name,transfermarkt_team_name,transfermarkt_team_id,transfermarkt_team_href,squad_size,avg_age,market_value_eur,fifa_rank
-Argentina,Argentina,Argentina World Cup,3437,/argentinien/startseite/verein/3437,29,28.1,761200000.0,3
-France,France,France World Cup,3377,/frankreich/startseite/verein/3377,26,27.0,1470000000.0,1
-Belgium,Belgium,Belgium World Cup,3382,/belgien/startseite/verein/3382,26,27.6,558200000.0,9
-Brazil,Brazil,Brazil World Cup,3439,/brasilien/startseite/verein/3439,26,29.2,905700000.0,6
-England,England,England World Cup,3299,/england/startseite/verein/3299,35,27.3,1620000000.0,4
-Portugal,Portugal,Portugal World Cup,3300,/portugal/startseite/verein/3300,26,28.0,965000000.0,5
-Netherlands,Netherlands,Netherlands World Cup,3379,/niederlande/startseite/verein/3379,25,27.1,763000000.0,7
-Spain,Spain,Spain World Cup,3375,/spanien/startseite/verein/3375,27,26.7,1310000000.0,2
-Croatia,Croatia,Croatia World Cup,3556,/kroatien/startseite/verein/3556,26,28.3,357300000.0,11
-Italy,Italy,Italy World Cup Qualification Playoffs,3376,/italien/startseite/verein/3376,28,26.7,833500000.0,12
-USA,United States,United States World Cup,3505,/vereinigte-staaten/startseite/verein/3505,27,26.4,356700000.0,16
-Colombia,Colombia,Colombia World Cup,3816,/kolumbien/startseite/verein/3816,26,29.8,298450000.0,13
-Morocco,Morocco,Morocco World Cup,3575,/marokko/startseite/verein/3575,28,24.9,228480000.0,8
-Uruguay,Uruguay,Uruguay World Cup,3449,/uruguay/startseite/verein/3449,28,28.5,363550000.0,17
-Mexico,Mexico,Mexico World Cup,6303,/mexiko/startseite/verein/6303,12,26.9,83600000.0,15
-Germany,Germany,Germany World Cup,3262,/deutschland/startseite/verein/3262,26,27.9,1010000000.0,10
-Japan,Japan,Japan World Cup,3435,/japan/startseite/verein/3435,27,28.1,264050000.0,18
-Senegal,Senegal,Senegal World Cup,3499,/senegal/startseite/verein/3499,28,26.9,464300000.0,14
-Switzerland,Switzerland,Switzerland World Cup,3384,/schweiz/startseite/verein/3384,26,28.3,317600000.0,19
-IR Iran,Iran,Iran World Cup,3582,/iran/startseite/verein/3582,30,29.3,35650000.0,21
-Denmark,Denmark,Denmark World Cup Qualification Playoffs,3436,/danemark/startseite/verein/3436,24,26.3,368000000.0,20
-Korea Republic,South Korea,South Korea World Cup,3589,/sudkorea/startseite/verein/3589,26,28.2,142300000.0,25
-Australia,Australia,Australia World Cup,3433,/australien/startseite/verein/3433,26,27.2,51330000.0,27
-Ukraine,Ukraine,Ukraine World Cup Qualification Playoffs,3699,/ukraine/startseite/verein/3699,26,26.6,288200000.0,32
-Austria,Austria,Austria World Cup,3383,/osterreich/startseite/verein/3383,26,28.5,258300000.0,24
-Poland,Poland,Poland World Cup Qualification Playoffs,3442,/polen/startseite/verein/3442,25,27.7,214000000.0,35
-Hungary,Hungary,Hungary World Cup qualification Europe,3468,/ungarn/startseite/verein/3468,29,25.6,213400000.0,42
-Sweden,Sweden,Sweden World Cup,3557,/schweden/startseite/verein/3557,26,27.4,435380000.0,38
-Wales,Wales,Wales World Cup Qualification Playoffs,3864,/wales/startseite/verein/3864,25,27.0,199050000.0,37
-Ecuador,Ecuador,Ecuador World Cup,5750,/ecuador/startseite/verein/5750,32,26.0,366730000.0,23
-Peru,Peru,Peru,3584,/peru/startseite/verein/3584,24,26.9,28900000.0,53
-Serbia,Serbia,Serbia World Cup qualification Europe,3438,/serbien/startseite/verein/3438,28,26.8,296500000.0,39
-Russia,Russia,Russia,3448,/russland/startseite/verein/3448,32,26.2,215750000.0,36
-Czechia,Czechia,Czechia World Cup,3445,/tschechien/startseite/verein/3445,29,27.5,196430000.0,41
-Qatar,Qatar,Qatar World Cup,14162,/katar/startseite/verein/14162,25,27.9,17930000.0,55
-Egypt,Egypt,Egypt World Cup,3672,/agypten/startseite/verein/3672,27,28.8,136230000.0,29
-Côte d'Ivoire,Ivory Coast,Ivory Coast World Cup,3591,/elfenbeinkuste/startseite/verein/3591,26,25.6,516900000.0,34
-Nigeria,Nigeria,Nigeria Africa Cup of Nations,3444,/nigeria/startseite/verein/3444,32,25.4,160700000.0,26
-Scotland,Scotland,Scotland World Cup,3380,/schottland/startseite/verein/3380,26,29.4,207830000.0,43
-Chile,Chile,Chile,3700,/chile/startseite/verein/3700,26,25.3,72200000.0,54
-Tunisia,Tunisia,Tunisia World Cup,3670,/tunesien/startseite/verein/3670,26,26.6,69550000.0,44
-Turkey,Turkey,Turkiye World Cup,3381,/turkei/startseite/verein/3381,35,27.1,525200000.00000006,22
-Panama,Panama,Panama World Cup,3577,/panama/startseite/verein/3577,23,29.7,31350000.0,33
-Algeria,Algeria,Algeria World Cup,3614,/algerien/startseite/verein/3614,26,26.0,227850000.0,28
-Slovakia,Slovakia,Slovakia World Cup Qualification Playoffs,3503,/slowakei/startseite/verein/3503,30,27.6,122750000.0,48
-Norway,Norway,Norway World Cup,3440,/norwegen/startseite/verein/3440,24,27.1,504000000.0,31
-Romania,Romania,Romania World Cup Qualification Playoffs,3447,/rumanien/startseite/verein/3447,26,27.9,97600000.0,56
-Canada,Canada,Canada World Cup,3510,/kanada/startseite/verein/3510,26,26.6,129550000.00000001,30
+team_name,search_name,transfermarkt_team_name,transfermarkt_team_id,transfermarkt_team_href,squad_size,avg_age,market_value_eur,fifa_rank,top5_players
+Argentina,Argentina,Argentina World Cup,3437,/argentinien/startseite/verein/3437,29,28.1,761200000.0,3,18
+France,France,France World Cup,3377,/frankreich/startseite/verein/3377,26,27.0,1470000000.0,1,24
+Belgium,Belgium,Belgium World Cup,3382,/belgien/startseite/verein/3382,26,27.6,558200000.0,9,20
+Brazil,Brazil,Brazil World Cup,3439,/brasilien/startseite/verein/3439,26,29.2,905700000.0,6,14
+England,England,England World Cup,3299,/england/startseite/verein/3299,35,27.3,1620000000.0,4,35
+Portugal,Portugal,Portugal World Cup,3300,/portugal/startseite/verein/3300,26,28.0,965000000.0,5,17
+Netherlands,Netherlands,Netherlands World Cup,3379,/niederlande/startseite/verein/3379,25,27.1,763000000.0,7,20
+Spain,Spain,Spain World Cup,3375,/spanien/startseite/verein/3375,27,26.7,1310000000.0,2,27
+Croatia,Croatia,Croatia World Cup,3556,/kroatien/startseite/verein/3556,26,28.3,357300000.0,11,17
+Italy,Italy,Italy World Cup Qualification Playoffs,3376,/italien/startseite/verein/3376,28,26.7,833500000.0,12,27
+USA,United States,United States World Cup,3505,/vereinigte-staaten/startseite/verein/3505,27,26.4,356700000.0,16,14
+Colombia,Colombia,Colombia World Cup,3816,/kolumbien/startseite/verein/3816,26,29.8,298450000.0,13,8
+Morocco,Morocco,Morocco World Cup,3575,/marokko/startseite/verein/3575,28,24.9,228480000.0,8,7
+Uruguay,Uruguay,Uruguay World Cup,3449,/uruguay/startseite/verein/3449,28,28.5,363550000.0,17,8
+Mexico,Mexico,Mexico World Cup,6303,/mexiko/startseite/verein/6303,12,26.9,83600000.0,15,0
+Germany,Germany,Germany World Cup,3262,/deutschland/startseite/verein/3262,26,27.9,1010000000.0,10,25
+Japan,Japan,Japan World Cup,3435,/japan/startseite/verein/3435,27,28.1,264050000.0,18,12
+Senegal,Senegal,Senegal World Cup,3499,/senegal/startseite/verein/3499,28,26.9,464300000.0,14,21
+Switzerland,Switzerland,Switzerland World Cup,3384,/schweiz/startseite/verein/3384,26,28.3,317600000.0,19,23
+IR Iran,Iran,Iran World Cup,3582,/iran/startseite/verein/3582,30,29.3,35650000.0,21,0
+Denmark,Denmark,Denmark World Cup Qualification Playoffs,3436,/danemark/startseite/verein/3436,24,26.3,368000000.0,20,17
+Korea Republic,South Korea,South Korea World Cup,3589,/sudkorea/startseite/verein/3589,26,28.2,142300000.0,25,5
+Australia,Australia,Australia World Cup,3433,/australien/startseite/verein/3433,26,27.2,51330000.0,27,3
+Ukraine,Ukraine,Ukraine World Cup Qualification Playoffs,3699,/ukraine/startseite/verein/3699,26,26.6,288200000.0,32,8
+Austria,Austria,Austria World Cup,3383,/osterreich/startseite/verein/3383,26,28.5,258300000.0,24,17
+Poland,Poland,Poland World Cup Qualification Playoffs,3442,/polen/startseite/verein/3442,25,27.7,214000000.0,35,9
+Hungary,Hungary,Hungary World Cup qualification Europe,3468,/ungarn/startseite/verein/3468,29,25.6,213400000.0,42,5
+Sweden,Sweden,Sweden World Cup,3557,/schweden/startseite/verein/3557,26,27.4,435380000.0,38,15
+Wales,Wales,Wales World Cup Qualification Playoffs,3864,/wales/startseite/verein/3864,25,27.0,199050000.0,37,9
+Ecuador,Ecuador,Ecuador World Cup,5750,/ecuador/startseite/verein/5750,32,26.0,366730000.0,23,6
+Peru,Peru,Peru,3584,/peru/startseite/verein/3584,24,26.9,28900000.0,53,0
+Serbia,Serbia,Serbia World Cup qualification Europe,3438,/serbien/startseite/verein/3438,28,26.8,296500000.0,39,11
+Russia,Russia,Russia,3448,/russland/startseite/verein/3448,32,26.2,215750000.0,36,1
+Czechia,Czechia,Czechia World Cup,3445,/tschechien/startseite/verein/3445,29,27.5,196430000.0,41,7
+Qatar,Qatar,Qatar World Cup,14162,/katar/startseite/verein/14162,25,27.9,17930000.0,55,0
+Egypt,Egypt,Egypt World Cup,3672,/agypten/startseite/verein/3672,27,28.8,136230000.0,29,4
+Côte d'Ivoire,Ivory Coast,Ivory Coast World Cup,3591,/elfenbeinkuste/startseite/verein/3591,26,25.6,516900000.0,34,13
+Nigeria,Nigeria,Nigeria Africa Cup of Nations,3444,/nigeria/startseite/verein/3444,32,25.4,160700000.0,26,8
+Scotland,Scotland,Scotland World Cup,3380,/schottland/startseite/verein/3380,26,29.4,207830000.0,43,11
+Chile,Chile,Chile,3700,/chile/startseite/verein/3700,26,25.3,72200000.0,54,4
+Tunisia,Tunisia,Tunisia World Cup,3670,/tunesien/startseite/verein/3670,26,26.6,69550000.0,44,6
+Turkey,Turkey,Turkiye World Cup,3381,/turkei/startseite/verein/3381,35,27.1,525200000.00000006,22,10
+Panama,Panama,Panama World Cup,3577,/panama/startseite/verein/3577,23,29.7,31350000.0,33,0
+Algeria,Algeria,Algeria World Cup,3614,/algerien/startseite/verein/3614,26,26.0,227850000.0,28,9
+Slovakia,Slovakia,Slovakia World Cup Qualification Playoffs,3503,/slowakei/startseite/verein/3503,30,27.6,122750000.0,48,7
+Norway,Norway,Norway World Cup,3440,/norwegen/startseite/verein/3440,24,27.1,504000000.0,31,15
+Romania,Romania,Romania World Cup Qualification Playoffs,3447,/rumanien/startseite/verein/3447,26,27.9,97600000.0,56,2
+Canada,Canada,Canada World Cup,3510,/kanada/startseite/verein/3510,26,26.6,129550000.00000001,30,5

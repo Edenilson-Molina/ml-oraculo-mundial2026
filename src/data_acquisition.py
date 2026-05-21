@@ -110,6 +110,8 @@ TEAM_NAME_ALIASES = {
     "Korea DPR": "North Korea",
 }
 
+TOP5_LEAGUE_IDS = {"GB1", "ES1", "IT1", "L1", "FR1"}
+
 
 def _parse_int(value):
     if value is None:
@@ -258,6 +260,51 @@ def _extract_team_header_stats(soup):
     return stats
 
 
+def _extract_league_id_from_club_page(soup):
+    html = soup.decode() if hasattr(soup, "decode") else str(soup)
+    match = re.search(r"eVar8:\s*'([^']+)'", html)
+    if not match:
+        return None
+    league_text = match.group(1)
+    league_id_match = re.search(r"\(([^)]+)\)", league_text)
+    return league_id_match.group(1) if league_id_match else None
+
+
+def _get_squad_club_hrefs(soup):
+    links = []
+    for row in soup.select("table.items tbody tr"):
+        anchor = row.select_one("a[href*='/startseite/verein/']")
+        if anchor:
+            href = anchor.get("href")
+            if href:
+                links.append(href)
+    return links
+
+
+def _count_top5_players(transfermarkt, team_href, league_cache):
+    if not team_href:
+        return None
+    squad_href = team_href.replace("/startseite/", "/kader/")
+    squad_url = f"https://www.transfermarkt.com{squad_href}"
+    squad_soup = transfermarkt.transfermarkt_request_to_soup(squad_url)
+    club_hrefs = _get_squad_club_hrefs(squad_soup)
+    top5_count = 0
+
+    for club_href in club_hrefs:
+        if club_href in league_cache:
+            league_id = league_cache[club_href]
+        else:
+            club_url = f"https://www.transfermarkt.com{club_href}"
+            club_soup = transfermarkt.transfermarkt_request_to_soup(club_url)
+            league_id = _extract_league_id_from_club_page(club_soup)
+            league_cache[club_href] = league_id
+
+        if league_id in TOP5_LEAGUE_IDS:
+            top5_count += 1
+
+    return top5_count
+
+
 def get_squad_quality_with_lanusstats(team_list=None, top_n=48):
     """
     Obtiene calidad de plantilla de selecciones usando LanusStats (Transfermarkt).
@@ -270,6 +317,7 @@ def get_squad_quality_with_lanusstats(team_list=None, top_n=48):
     - avg_age: edad promedio
     - market_value_eur: valor de mercado total (euros)
     - fifa_rank: ranking FIFA (si esta disponible en Transfermarkt)
+    - top5_players: jugadores en top 5 ligas europeas
     """
     print("\n📊 Obteniendo calidad de plantilla con LanusStats...")
 
@@ -294,6 +342,7 @@ def get_squad_quality_with_lanusstats(team_list=None, top_n=48):
 
     results = []
     transfermarkt = ls.Transfermarkt()
+    league_cache = {}
 
     for team_name in team_list:
         query = TEAM_NAME_ALIASES.get(team_name, team_name)
@@ -309,6 +358,7 @@ def get_squad_quality_with_lanusstats(team_list=None, top_n=48):
             "avg_age": None,
             "market_value_eur": None,
             "fifa_rank": None,
+            "top5_players": None,
         }
 
         try:
@@ -330,6 +380,9 @@ def get_squad_quality_with_lanusstats(team_list=None, top_n=48):
                 team_soup = transfermarkt.transfermarkt_request_to_soup(team_url)
                 header_stats = _extract_team_header_stats(team_soup)
                 team_data.update({k: v for k, v in header_stats.items() if v is not None})
+
+                top5_players = _count_top5_players(transfermarkt, team_href, league_cache)
+                team_data["top5_players"] = top5_players
 
         except Exception as e:
             print(f"      Error: {e}")
