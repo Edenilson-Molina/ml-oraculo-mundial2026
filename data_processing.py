@@ -110,3 +110,66 @@ def apply_time_decay(df: pd.DataFrame, lambda_val: float = 0.24) -> pd.DataFrame
     df['years_ago'] = current_year - df['date'].dt.year
     df['weight'] = np.exp(-lambda_val * df['years_ago'])
     return df
+
+def calculate_elo(df_matches: pd.DataFrame, base_elo: float = 1500.0) -> pd.DataFrame:
+    """
+    Calcula el Rating ELO histórico para cada equipo partido a partido.
+    Requiere que el DataFrame esté ordenado cronológicamente.
+    """
+    # 1. Aseguramos el orden cronológico estricto
+    df = df_matches.sort_values('date').copy()
+    
+    # 2. Diccionario para mantener el estado actual del ELO de cada selección
+    elo_dict = {}
+    
+    # 3. Listas para almacenar el ELO *antes* del partido (Nuestras variables predictivas)
+    elo_home_list = []
+    elo_away_list = []
+    
+    for index, row in df.iterrows():
+        home = row['home_team']
+        away = row['away_team']
+        
+        # Inicializar equipos nuevos con el ELO base (1500 es el estándar)
+        if home not in elo_dict: elo_dict[home] = base_elo
+        if away not in elo_dict: elo_dict[away] = base_elo
+        
+        elo_home_pre = elo_dict[home]
+        elo_away_pre = elo_dict[away]
+        
+        # Guardamos el ELO previo para entrenar el modelo (No podemos usar el ELO post-partido para predecirlo)
+        elo_home_list.append(elo_home_pre)
+        elo_away_list.append(elo_away_pre)
+        
+        # 4. Cálculo de Probabilidad Esperada (E)
+        E_home = 1 / (1 + 10 ** ((elo_away_pre - elo_home_pre) / 400))
+        E_away = 1 / (1 + 10 ** ((elo_home_pre - elo_away_pre) / 400))
+        
+        # 5. Determinar el resultado real (S)
+        if row['home_score'] > row['away_score']:
+            S_home, S_away = 1, 0
+        elif row['home_score'] < row['away_score']:
+            S_home, S_away = 0, 1
+        else:
+            S_home, S_away = 0.5, 0.5
+            
+        # 6. Factor K: Peso de la competición
+        tournament = str(row['tournament']).lower()
+        if 'world cup' in tournament and 'qualification' not in tournament:
+            K = 60 # Máxima importancia
+        elif 'copa america' in tournament or 'euro' in tournament or 'african' in tournament:
+            K = 40 # Torneos continentales
+        elif 'qualification' in tournament or 'nations league' in tournament:
+            K = 30 # Clasificatorias
+        else:
+            K = 20 # Amistosos (Friendly)
+            
+        # 7. Actualización Matemática de Puntajes
+        elo_dict[home] = elo_home_pre + K * (S_home - E_home)
+        elo_dict[away] = elo_away_pre + K * (S_away - E_away)
+        
+    # Añadimos las variables al DataFrame
+    df['elo_home'] = elo_home_list
+    df['elo_away'] = elo_away_list
+    
+    return df
