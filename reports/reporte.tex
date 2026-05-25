@@ -127,6 +127,43 @@
 		
 		\item \textbf{Ranking y ELO:} Integración de la clasificación FIFA oficial y la recreación del sistema ELO para capturar de forma inercial la fuerza actual de una selección.
 	\end{itemize}
+	\section{Análisis Exploratorio de Datos (EDA)}
+	
+	Con el objetivo de comprender el comportamiento histórico de los partidos internacionales, se realizó un análisis exploratorio sobre las variables más relevantes del conjunto de datos.
+	
+	\subsection{Distribución de Resultados}
+	
+	La Figura \ref{fig:resultados} muestra la distribución de victorias, empates y derrotas en el dataset histórico. Se observa un desbalance moderado de clases, especialmente en los empates, lo cual justifica el uso de métricas probabilísticas como Log Loss y Brier Score.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=7cm]{figures/dist_resultados.png}
+		
+		\caption{Distribución de resultados históricos}
+		\label{fig:resultados}
+	\end{figure}
+	
+	\subsection{Selecciones con Mayor Rendimiento Histórico}
+	
+	\ref{fig:topteams} presenta las selecciones con mayor número de victorias históricas registradas en el dataset. Brasil, Argentina y Alemania dominan el historial competitivo internacional.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=7cm]{figures/top_teams.png}
+		\caption{Top selecciones con más victorias}
+		\label{fig:topteams}
+	\end{figure}
+	
+	\subsection{Correlación entre Variables}
+	
+	La matriz de correlación permite identificar relaciones entre las variables utilizadas en el entrenamiento. Se observa una fuerte correlación entre el diferencial ELO y la probabilidad de victoria, confirmando su relevancia predictiva.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=10cm]{figures/correlacion_numericas.png}
+		\caption{Heatmap de correlación entre variables}
+		\label{fig:heatmap}
+	\end{figure}
 	
 	\subsection{Ingeniería de Características}
 	
