@@ -32,7 +32,6 @@ ENV/
 
 # Generated ML artifacts
 models/trained/
-reports/figures/
 reports/*.aux
 reports/*.log
 
