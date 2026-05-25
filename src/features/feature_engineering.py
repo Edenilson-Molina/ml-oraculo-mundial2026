@@ -9,7 +9,12 @@ from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
+# ------------------------------
+# Feature Engineering Functions
+# ------------------------------
 
+# Función: add_elo_features
+# Agrega características de ELO al DataFrame. Calcula las diferencias de ELO entre los equipos locales y visitantes.
 def add_elo_features(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
     df["_row_id"] = np.arange(len(df))
@@ -19,7 +24,10 @@ def add_elo_features(df: pd.DataFrame) -> pd.DataFrame:
     df["elo_diff"] = df["elo_home"] - df["elo_away"]
     return df
 
-
+# Función: add_recent_form_features
+# Agrega características de forma reciente al DataFrame. 
+# Calcula la tasa de victorias, goles a favor, goles en contra y diferencia de goles promedio 
+# para los equipos locales y visitantes en una ventana de partidos anterior.
 def add_recent_form_features(df: pd.DataFrame, window: int = 5) -> pd.DataFrame:
     df = df.copy()
     if "neutral" not in df.columns:
@@ -93,7 +101,13 @@ def add_recent_form_features(df: pd.DataFrame, window: int = 5) -> pd.DataFrame:
     df = df.drop(columns=["match_id"])
     return df
 
-
+# Función: add_basic_diff_features
+# Agrega características de diferencias básicas al DataFrame.
+# Calcula las diferencias entre los equipos locales y visitantes 
+# para varias métricas como el ranking, valor de mercado, edad promedio, 
+# tamaño de la plantilla y número de jugadores en el top 5. 
+# También agrega una característica de ventaja de localía 
+# basada en si el partido es neutral o no.
 def add_basic_diff_features(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
 
@@ -118,6 +132,10 @@ def add_basic_diff_features(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+# Función: add_features
+# Agrega todas las características al DataFrame. 
+# Permite incluir características de ELO, aplicar decaimiento temporal y 
+# configurar la ventana para las características de forma reciente.
 def add_features(
     df: pd.DataFrame,
     include_elo: bool = True,
@@ -142,7 +160,8 @@ def add_features(
 
     return df
 
-
+# Función: get_feature_columns
+# Obtiene la lista de columnas de características válidas para el modelado.
 def get_feature_columns(df: pd.DataFrame) -> List[str]:
     base_features = [
         "rank_diff",
@@ -167,7 +186,8 @@ def get_feature_columns(df: pd.DataFrame) -> List[str]:
 
     return feature_cols
 
-
+# Función: build_feature_matrix
+# Construye la matriz de características final para el modelado.
 def build_feature_matrix(
     df: pd.DataFrame,
     include_elo: bool = True,
