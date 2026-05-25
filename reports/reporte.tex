@@ -1,0 +1,296 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+
+\title{El Oráculo del Balón: Predicción Probabilística y Simulación Monte Carlo para la Copa Mundial FIFA 2026}
+
+\author{
+\IEEEauthorblockN{Abner Rivas}
+\IEEEauthorblockA{
+Arquitectura de Datos\\
+Proyecto Final de Machine Learning\\
+El Salvador\\
+}
+}
+
+\begin{document}
+
+\begin{titlepage}
+
+\begin{center}
+
+{\large \textbf{UNIVERSIDAD DE EL SALVADOR}}\\[0.2cm]
+{\large \textbf{FACULTAD DE INGENIERÍA Y ARQUITECTURA}}\\[0.2cm]
+{\large \textbf{ESCUELA DE INGENIERÍA DE SISTEMAS INFORMÁTICOS}}\\[0.2cm]
+{\large \textbf{CURSO DE ESPECIALIZACIÓN ``MACHINE LEARNING''}}\\[0.2cm]
+{\large \textbf{CICLO I 2026}}\\[2cm]
+
+%========================================
+% LOGO
+%========================================
+
+\includegraphics[width=5cm]{imagenes/logo_ues.png}\\[2cm]
+
+%========================================
+% TEMA
+%========================================
+
+{\Large \textbf{TEMA:}}\\[0.5cm]
+
+{\large
+Predicción del Mundial FIFA 2026: Un Enfoque de Machine Learning con Simulaciones de Monte Carlo
+}\\[1cm]
+
+%========================================
+% DOCENTE
+%========================================
+
+{\Large \textbf{DOCENTE:}}\\[0.4cm]
+
+{\large ING. Vladimir Diaz}\\[1.5cm]
+
+%========================================
+% ALUMNOS
+%========================================
+
+{\Large \textbf{ALUMNOS:}}\\[0.7cm]
+
+\renewcommand{\arraystretch}{1.5}
+
+\begin{tabular}{|>{\centering\arraybackslash}m{5cm}|
+>{\centering\arraybackslash}m{4cm}|
+>{\centering\arraybackslash}m{3cm}|}
+\hline
+\textbf{APELLIDO} & \textbf{NOMBRE} & \textbf{CARNET} \\
+\hline
+RIVAS FUENTES & JOSÍAS ABNER & RF20010 \\
+\hline
+ROSALES MOLINA & ELMER EDENILSON & RM20001 \\
+\hline
+\end{tabular}
+
+\vfill
+
+{\large San Salvador, El Salvador}\\[0.2cm]
+{\large 2026}
+
+\end{center}
+
+\end{titlepage}
+
+%========================================
+% CONTENIDO
+%========================================
+
+\maketitle
+
+\begin{abstract}
+La predicción de resultados en torneos internacionales de fútbol es un desafío complejo debido a la alta varianza y la naturaleza de baja anotación del deporte. Este artículo presenta un enfoque fundamentado en Machine Learning para predecir las probabilidades de resultados a nivel de partido y simular la Copa Mundial de la FIFA 2026 bajo su nuevo formato de 48 equipos.
+
+Mediante el uso de datos históricos de partidos, rankings ELO y valor de mercado, se entrenaron modelos como Regresión Logística y XGBoost. Los resultados muestran que un modelo lineal estandarizado obtiene una mejor calibración probabilística. Usando el mejor modelo, se ejecutaron 100,000 simulaciones de Monte Carlo del torneo completo, estableciendo a España, Francia y Argentina como los principales favoritos.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Machine Learning, Simulación Monte Carlo, Fútbol, Regresión Logística, XGBoost, ELO.
+\end{IEEEkeywords}
+
+\section{Introducción}
+
+La predicción deportiva ha evolucionado desde heurísticas de expertos hasta rigurosos sistemas computacionales y estadísticos. El presente proyecto, ``El Oráculo del Balón'', busca abordar el problema de pronosticar el ganador de la Copa Mundial FIFA 2026.
+
+Este mundial presenta un reto estadístico particular: la expansión a 48 equipos y 104 partidos, lo que incrementa la combinatoria y la aparición de selecciones debutantes o con menos rodaje internacional histórico.
+
+El objetivo de este artículo es describir un pipeline de ciencia de datos que estima la probabilidad de que una selección nacional avance y triunfe en el certamen. Para ello, el problema se modela en dos etapas:
+
+\begin{enumerate}
+    \item Entrenamiento de un clasificador probabilístico multiclase para cada encuentro individual (Victoria Local, Empate, Victoria Visitante).
+    \item Ejecución de un motor de simulación basado en el método de Monte Carlo que resuelve el fixture de fase de grupos y llaves eliminatorias.
+\end{enumerate}
+
+\section{Metodología}
+
+La arquitectura del sistema se diseñó para priorizar la calibración probabilística en lugar de clasificaciones duras, dado que las simulaciones estocásticas requieren que las estimaciones representen fiablemente la incertidumbre del mundo real.
+
+\subsection{Adquisición y Preparación de Datos}
+
+El conjunto de datos combina múltiples fuentes, destacando resultados históricos internacionales de fútbol (1872--actualidad) y factores de calidad contemporánea:
+
+\begin{itemize}
+    \item \textbf{Resultados y Estadísticas:} Datos de marcadores, fechas, equipos y localía.
+    
+    \item \textbf{Calidad de Plantilla:} Valor de mercado de los equipos (\texttt{market\_value\_eur}), edad promedio, cantidad de jugadores en el top-5 de ligas de Europa y tamaño de los planteles.
+    
+    \item \textbf{Ranking y ELO:} Integración de la clasificación FIFA oficial y la recreación del sistema ELO para capturar de forma inercial la fuerza actual de una selección.
+\end{itemize}
+
+\subsection{Ingeniería de Características}
+
+Para evitar el \textit{data leakage} (fuga de datos), se desarrolló un proceso de ingeniería de características puramente retrospectivo.
+
+Las 11 variables más críticas seleccionadas incluyen:
+
+\begin{itemize}
+    \item Diferenciales de calidad:
+    \begin{itemize}
+        \item \texttt{elo\_diff}
+        \item \texttt{rank\_diff}
+        \item \texttt{market\_value\_diff}
+        \item \texttt{top5\_players\_diff}
+    \end{itemize}
+    
+    \item Estado de forma reciente (últimos 5 partidos):
+    \begin{itemize}
+        \item \texttt{form\_win\_rate\_diff}
+        \item \texttt{form\_gf\_avg\_diff}
+        \item \texttt{form\_ga\_avg\_diff}
+    \end{itemize}
+    
+    \item Factores contextuales:
+    \begin{itemize}
+        \item \texttt{home\_advantage}
+    \end{itemize}
+\end{itemize}
+
+Además, se aplicó un peso temporal de decaimiento exponencial:
+
+\[
+w = e^{-\lambda t}
+\]
+
+para penalizar la influencia de partidos antiguos en el aprendizaje de los modelos.
+
+\subsection{Selección y Entrenamiento de Modelos}
+
+Se plantearon dos enfoques con un particionamiento de los datos ordenado temporalmente:
+
+\begin{itemize}
+    \item 80\% entrenamiento (21,386 filas)
+    \item 20\% prueba (5,347 filas)
+\end{itemize}
+
+\subsubsection{Regresión Logística}
+
+Implementada mediante un pipeline que incluye imputación de medianas y escalado estándar (\texttt{StandardScaler}). Optimiza el modelo para obtener probabilidades altamente calibradas directamente mediante la estimación de máxima verosimilitud.
+
+\subsubsection{XGBoost Classifier}
+
+Modelo de ensamble de árboles que maneja interacciones no lineales. Emplea la función objetivo \texttt{multi:softprob} para obtener una distribución sobre las tres clases.
+
+Parámetros utilizados:
+
+\begin{itemize}
+    \item \texttt{max\_depth = 6}
+    \item \texttt{subsample = 0.8}
+\end{itemize}
+
+\section{Experimentos y Resultados}
+
+\subsection{Evaluación a Nivel de Partido}
+
+Para un modelo generador de probabilidades, las métricas más importantes son aquellas que miden la distancia entre distribuciones estimadas y reales.
+
+Las métricas empleadas fueron:
+
+\begin{itemize}
+    \item Log Loss
+    \item Brier Score
+    \item Accuracy
+    \item F1-Macro
+    \item MAE
+\end{itemize}
+
+\begin{table}[h]
+\centering
+\caption{Métricas Comparativas en Conjunto de Test}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Métrica} & \textbf{Regresión Logística} & \textbf{XGBoost} \\
+\midrule
+Log Loss ($\downarrow$) & 0.8733 & 0.9017 \\
+Brier Score ($\downarrow$) & 0.5132 & 0.5299 \\
+Accuracy ($\uparrow$) & 60.38\% & 58.40\% \\
+F1-Macro ($\uparrow$) & 0.4447 & 0.4708 \\
+MAE ($\downarrow$) & 0.5629 & 0.5709 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Análisis de Resultados}
+
+Los resultados indican empíricamente que la Regresión Logística superó al modelo XGBoost en términos de calibración y exactitud general.
+
+Esto ocurre frecuentemente en predicción de fútbol: los modelos complejos como XGBoost tienden a emitir probabilidades sobresalientes en escenarios ruidosos, perdiendo calibración en el proceso, mientras que los modelos lineales regularizados generan fronteras de decisión más conservadoras y balanceadas.
+
+Sin embargo, en clasificación de minorías (empates y sorpresas), XGBoost presenta un desempeño marginalmente superior reflejado en el F1-Macro.
+
+\subsection{Simulación del Mundial 2026}
+
+Usando el modelo probabilístico entrenado, se ejecutaron 100,000 simulaciones Monte Carlo del torneo completo bajo el formato de 48 equipos y 104 partidos.
+
+\begin{table}[h]
+\centering
+\caption{Top 10 Selecciones con Mayor Probabilidad de Campeonar}
+\begin{tabular}{clcc}
+\toprule
+\textbf{Pos.} & \textbf{Selección} & \textbf{Campeonatos} & \textbf{Probabilidad} \\
+\midrule
+1 & España & 13,158 & 13.15\% \\
+2 & Francia & 8,818 & 8.81\% \\
+3 & Argentina & 8,659 & 8.65\% \\
+4 & Inglaterra & 7,640 & 7.64\% \\
+5 & Japón & 6,276 & 6.27\% \\
+6 & Croacia & 5,657 & 5.65\% \\
+7 & Bélgica & 3,736 & 3.73\% \\
+8 & Países Bajos & 3,345 & 3.34\% \\
+9 & Brasil & 2,893 & 2.89\% \\
+10 & Marruecos & 2,844 & 2.84\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+El resultado proyecta a España como el principal candidato debido a la acumulación actual en rankings, estado de forma y calidad de plantilla.
+
+También destaca el crecimiento de selecciones emergentes como Japón y Marruecos.
+
+\section{Análisis de Limitaciones}
+
+A pesar del rigor estadístico, el modelo presenta limitaciones inherentes al deporte:
+
+\begin{itemize}
+    \item \textbf{Falta de información sobre debutantes:} Equipos con poco historial competitivo presentan poca evidencia estadística.
+    
+    \item \textbf{Lesiones y factor humano:} Lesiones o cambios físicos de jugadores clave no son fácilmente modelables.
+    
+    \item \textbf{Incertidumbre táctica:} Estrategias defensivas o cambios técnicos son difíciles de representar sin métricas avanzadas como xG o tracking de presión.
+\end{itemize}
+
+\section{Conclusiones}
+
+Este artículo demuestra el valor de aplicar técnicas de Machine Learning y simulaciones estocásticas al ámbito deportivo.
+
+La metodología comprobó que la modelación de diferenciales probabilísticos dentro de una Regresión Logística produce resultados de alta exactitud global y excelente calibración.
+
+La simulación Monte Carlo evidencia que el aumento a 48 equipos incrementa la incertidumbre competitiva y favorece ocasionalmente a selecciones de segundo nivel si obtienen caminos accesibles en el torneo.
+
+Con los datos disponibles al cierre de 2024, el sistema ``El Oráculo del Balón'' proyecta un mundial dominado por España, Francia y Argentina como principales contendientes.
+
+\section*{Referencias}
+
+\begin{enumerate}
+    \item FIFA World Ranking Dataset.
+    \item Kaggle FIFA World Cup Datasets.
+    \item API-Football.
+    \item Football-Data.org.
+    \item EloRatings.net.
+    \item Scikit-learn Documentation.
+    \item XGBoost Documentation.
+\end{enumerate}
+
+\end{document}
