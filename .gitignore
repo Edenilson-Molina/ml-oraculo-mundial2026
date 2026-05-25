@@ -33,7 +33,8 @@ ENV/
 # Generated ML artifacts
 models/trained/
 reports/figures/
-reports/metrics/
+reports/*.aux
+reports/*.log
 
 # Optional local data exports
 data/interim/

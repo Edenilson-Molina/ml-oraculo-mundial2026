@@ -1,0 +1,33 @@
+{
+  "cv": {
+    "log_loss": 0.9219756796576901,
+    "brier_score": 0.544487658558017,
+    "accuracy": 0.572103151739689,
+    "f1_macro": 0.4173573491080374,
+    "mae": 0.6193305505829751,
+    "rmse": 1.0010716916022626
+  },
+  "test": {
+    "log_loss": 0.8733239389819583,
+    "brier_score": 0.5132232992547895,
+    "accuracy": 0.6038900317935291,
+    "f1_macro": 0.4447837664418269,
+    "mae": 0.5629324855058911,
+    "rmse": 0.9468777746386973
+  },
+  "features": [
+    "rank_diff",
+    "elo_diff",
+    "market_value_diff",
+    "avg_age_diff",
+    "squad_size_diff",
+    "top5_players_diff",
+    "home_advantage",
+    "form_win_rate_diff",
+    "form_goal_diff_diff",
+    "form_gf_avg_diff",
+    "form_ga_avg_diff"
+  ],
+  "rows_train": 21386,
+  "rows_test": 5347
+}
