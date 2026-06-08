@@ -222,7 +222,7 @@ def run_monte_carlo_tournament(
     proba_df: pd.DataFrame,
     n_simulations: int = 10000,
     random_seed: int = 42,
-) -> Dict[str, int]:
+) -> Tuple[Dict[str, int], List[str]]:
     logger.info("Running Monte Carlo tournament with %s simulations", n_simulations)
     lookup = _build_proba_lookup(proba_df)
     rng = np.random.default_rng(random_seed)
@@ -237,4 +237,86 @@ def run_monte_carlo_tournament(
         winners.append(champion)
 
     winner_counts = pd.Series(winners).value_counts().to_dict()
-    return {str(k): int(v) for k, v in winner_counts.items()}
+    return {str(k): int(v) for k, v in winner_counts.items()}, winners
+
+
+def run_fixed_group_tournament(
+    groups: Dict[str, List[str]],
+    proba_df: pd.DataFrame,
+    n_simulations: int = 10000,
+    random_seed: int = 42,
+) -> Tuple[Dict[str, int], List[str], Dict[str, Dict[str, int]]]:
+    """Run a Monte Carlo tournament with fixed group assignments.
+
+    Unlike ``run_monte_carlo_tournament``, this function keeps the same
+    group composition across every simulation iteration instead of
+    reshuffling teams into random groups.
+
+    Parameters
+    ----------
+    groups : Dict[str, List[str]]
+        Pre-defined groups mapping group label to a list of four teams.
+    proba_df : pd.DataFrame
+        Match probability matrix with columns
+        ``home_team``, ``away_team``, ``proba_0``, ``proba_1``, ``proba_2``.
+    n_simulations : int, optional
+        Number of tournament simulations to run, by default 10000.
+    random_seed : int, optional
+        Seed for the random number generator, by default 42.
+
+    Returns
+    -------
+    Tuple[Dict[str, int], List[str], Dict[str, Dict[str, int]]]
+        * ``winner_counts`` – mapping of team name to championship count.
+        * ``winners`` – full list of champion per simulation.
+        * ``advancement`` – for each team a dict with keys
+          ``"group"``, ``"qualified"``, ``"first"``, ``"second"``,
+          ``"third"``.
+    """
+    logger.info(
+        "Running fixed-group Monte Carlo tournament with %s simulations",
+        n_simulations,
+    )
+    lookup = _build_proba_lookup(proba_df)
+    rng = np.random.default_rng(random_seed)
+
+    # Initialise advancement tracking
+    advancement: Dict[str, Dict[str, int]] = {}
+    for group_label, team_list in groups.items():
+        for team in team_list:
+            advancement[team] = {
+                "group": group_label,
+                "qualified": 0,
+                "first": 0,
+                "second": 0,
+                "third": 0,
+            }
+
+    winners: List[str] = []
+    for _ in range(n_simulations):
+        group_rankings, third_place_scores = simulate_group_stage(
+            groups, lookup, rng
+        )
+
+        # Record positional finishes
+        for group_label, ranking in group_rankings.items():
+            if len(ranking) >= 1:
+                advancement[ranking[0]]["first"] += 1
+                advancement[ranking[0]]["qualified"] += 1
+            if len(ranking) >= 2:
+                advancement[ranking[1]]["second"] += 1
+                advancement[ranking[1]]["qualified"] += 1
+            if len(ranking) >= 3:
+                advancement[ranking[2]]["third"] += 1
+
+        best_thirds = select_best_thirds(third_place_scores)
+        round_of_32 = build_round_of_32(group_rankings, best_thirds)
+        champion = simulate_knockout(round_of_32, lookup, rng)
+        winners.append(champion)
+
+    winner_counts = pd.Series(winners).value_counts().to_dict()
+    return (
+        {str(k): int(v) for k, v in winner_counts.items()},
+        winners,
+        advancement,
+    )
